@@ -1,0 +1,88 @@
+// Place all the styles related to the welcome controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+* {
+	margin: 0;
+	padding: 0;
+	font-family: Arial;
+
+}
+
+body {
+	// background-color: #b1f4cf;
+}
+
+h4 {
+	font-size: 1.3rem;
+	text-decoration: underline;
+}
+
+.navbar {
+	margin: 2rem 2rem;
+	height: 40rem;
+	background-image: linear-gradient(to top, #9890e3 0%, #b1f4cf 100%);
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	ul {
+	// border: 2px solid;
+		li {
+			list-style-type: none;
+			font-size: 2.3rem;
+			// color: #9890e3;
+			// color: black;
+			text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
+			margin: 2rem 3rem;
+
+			&:hover {
+				transform: scale(1.2);
+			}
+		}
+	}
+}
+
+tr {
+	outline: thin solid;
+}
+
+.title {
+  text-align: center;
+  background: -webkit-linear-gradient(#9890e3, #b1f4cf);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 3.5rem;
+}
+
+
+.layout {
+	display: grid;
+	grid-template-columns: 1fr 2fr;
+	grid-column-gap: 2rem;
+}
+
+.grid_item--two {
+	margin: 2rem 3rem;
+}
+
+.form--field {
+
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.3rem;
+
+}
+
+@media (max-width: 600px) {
+	.layout {
+		display: flex;
+		flex-direction: column;
+
+	}
+
+	.grid_item--two {
+		text-align: center;
+	}
+}
+

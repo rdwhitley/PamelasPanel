@@ -1,0 +1,50 @@
+<h1>Admin Student Creation</h1>
+
+<%= form_for Student.new, url: "/created/student", method: "post" do |f| %>
+  <div class="field">
+      Email<br />
+      <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+    </div>
+
+     <div class="field">
+      First Name<br />
+      <%= f.text_field :fname, autofocus: true, autocomplete: "fname" %>
+    </div> 
+
+    <div class="field">
+      Last Name<br />
+      <%= f.text_field :lname, autofocus: true, autocomplete: "lname" %>
+    </div> 
+
+    <div class="field">
+      <%= f.label :age %><br />
+      <%= f.text_field :age, autofocus: true, autocomplete: "age" %>
+    </div> 
+    
+     <div class="field">
+      Cohort Number <br />
+      <%= f.text_field :cohort_id, autofocus: true, autocomplete: "cohort_id" %>
+    </div> 
+
+
+    <div class="field">
+      <%= f.label :password %>
+      <% if @minimum_password_length %>
+      <em>(<%= @minimum_password_length %> characters minimum)</em>
+      <% end %><br />
+      <%= f.password_field :password, autocomplete: "new-password" %>
+    </div>
+
+    <div class="field">
+      <%= f.label :password_confirmation %><br />
+      <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+    </div>
+
+    
+
+
+    <div class="actions" id='update' onClick=delete()>
+      <%= f.submit "Update" %>
+    </div>
+<% end %>
+

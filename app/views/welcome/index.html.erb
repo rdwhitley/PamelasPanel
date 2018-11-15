@@ -1,0 +1,233 @@
+  <head>
+    <title>Pamela</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+       <div class='user_data'>
+
+       <!-- No Login Dashboard !-->
+       <% if !instructor_signed_in? && !student_signed_in?%>
+
+        <h1>All Courses</h1>
+        <table class='table table-hover table-responsive'>
+          <tr>
+            <th>Name</th>
+            <th>Hours</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Cohort Id</th>
+          </tr>
+
+          <% @courses.each do |c| %>
+            <% cohortsData = c.cohorts.map { |cohort| cohort} %>
+
+            <% for i in 0..cohortsData.length - 1 do %>
+                <tr>
+                <th><%= c.name%></th>
+                <th><%= c.hours%></th>
+                <th><%= cohortsData[i].start_date%></th>
+                <th><%= cohortsData[i].end_date%></th>
+                <th><%= cohortsData[i].id%></th>
+
+                </tr>
+            <% end %>
+          <%end %>
+        </table>
+
+      <% end %>
+      
+       <!-- Instructor Dashboard !-->
+       <% if instructor_signed_in? && !current_instructor.admin? %>
+          <% c = current_instructor.cohorts.all %>
+        <h1>
+          Hello
+          <%= current_instructor[:fname]%>
+          <%=current_instructor[:lname]%>!
+        </h1>
+
+        <h2>My Cohorts</h2>
+        <table class='table table-hover table-responsive'>
+        <tr>
+          <th>Cohort Name</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+        </tr>
+        <% for i in 0..c.length - 1 do %>
+                <tr>
+                <th><%= c[i].name%></th>
+                <th><%= c[i].start_date%></th>
+                <th><%= c[i].end_date%></th>
+                </tr>
+            <% end %>
+        </table>
+      <% end %>
+
+      <!-- Admin Dashboard !-->
+      <% if instructor_signed_in? && current_instructor.admin? %>
+         <%cohorts = Cohort.all%>
+         <%courses = Course.all%>
+         <%instructors = Instructor.all%>
+         <%students = Student.all%>
+
+
+         <% instructor_fields = filterReq(instructors[0]) %>
+         <% cohort_fields = filterReq(cohorts[0]) %>
+         <% course_fields = filterReq(courses[0]) %>
+         <% student_fields = filterReq(students[0]) %>
+  
+
+
+         <% data = printData(instructors[0],instructor_fields)%>
+        
+         <h2>All Instructors</h2>
+         <table class='table table-hover table-responsive'>
+          <tr>
+            <% for field in instructor_fields %>
+              <td><%= field %></td>
+            <% end%>            
+          </tr>
+        
+         <% for item in instructors %>
+    
+         <% data = printData(item,instructor_fields)%>
+              <% print item.id%>
+              <tr>
+              <% for value in data %>
+                <td>
+                  <%=  value%>
+                </td>
+              <%end %>
+                <td>
+                  <%= "<a href='/instructors/#{item.id}/edit'>O</a>".html_safe %>
+                </td>
+                <td>
+                  <%= "<a href='/instructors/#{item.id}/sign_out'>X</a>".html_safe %>
+                </td>
+              </tr>
+         <% end %>
+         </table>
+
+          <h2>All Students</h2>
+         <table class='table table-hover table-responsive'>
+          <tr>
+            <% for field in student_fields %>
+              <td><%= field %></td>
+            <% end%>            
+          </tr>
+        
+         <% for item in students %>
+         <% data = printData(item,student_fields)%>
+              <tr>
+              <% for value in data %>
+                <td>
+                  <%=  value%>
+                </td>
+              <%end %>
+                <td>
+                  <%= "<a href='/students/#{item.id}/edit'>O</a>".html_safe %>
+                </td>
+                <td>
+                  <%= "<a href='/students/#{item.id}/sign_out'>X</a>".html_safe %>
+                </td>
+              </tr>
+         <% end %>
+         </table>
+
+         <h2>All Courses</h2>
+         <table class='table table-hover table-responsive'>
+          <tr>
+            <% for field in course_fields %>
+              <td><%= field %></td>
+            <% end%>            
+          </tr>
+        
+         <% for item in courses %>
+         <% data = printData(item,course_fields)%>
+              <tr>
+              <% for value in data %>
+                <td>
+                  <%=  value%>
+                </td>
+              <%end %>
+               <td>
+                  <%= "<a href='/courses/#{item.id}/edit'>O</a>".html_safe %>
+                </td>
+                <td>
+                  <%= "<a href='/courses/#{item.id}/sign_out'>X</a>".html_safe %>
+                </td>
+              </tr>
+         <% end %>
+         </table>
+
+         <h2>All Cohorts</h2>
+         <table class='table table-hover table-responsive'>
+          <tr>
+            <% for field in cohort_fields %>
+              <td><%= field %></td>
+            <% end%>            
+          </tr>
+        
+         <% for item in cohorts %>
+         <% data = printData(item,cohort_fields)%>
+              <tr>
+              <% for value in data %>
+                <td>
+         
+                  <%=  value%>
+                </td>
+              <%end %>
+               <td>
+                  <%= "<a href='/cohorts/#{item.id}/edit'>O</a>".html_safe %>
+                </td>
+                <td>
+                  <%= "<a href='/cohorts/#{item.id}/sign_out'>X</a>".html_safe %>
+                </td>
+              </tr>
+         <% end %>
+         </table>
+
+        <!--  <h1><%= instructor_fields%></h1>
+         <h1><%= cohort_fields%></h1>
+         <h1><%= course_fields%></h1>
+         <h1><%= student_fields%></h1> -->
+         
+      <% end %>
+      
+      <!-- Student Dashboard !-->
+      
+        <% if student_signed_in?%>
+          <% s = current_student %>
+          <% c = Cohort.find(s.cohort_id) %>
+          <% i = Instructor.find(c.instructor_id) %>
+          <% course = Course.find(c.course_id) %>
+        <h1>
+          Hello
+          <%= s[:fname]%>
+          <%= s[:lname]%>!
+        </h1>
+
+        <table class='table table-hover table-responsive'>
+          <tr>
+          <th>Course Name</th>
+          <th>Cohort Name</th>
+          <th>Course Instrucor</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+        </tr>
+        
+        <tr>
+          <th><%= course.name %></th>
+          <th><%= c.name %></th>
+          <th><%= i.fname %> <%= i.lname%></th>
+          <th><%= c.start_date %></th>
+          <th><%= c.end_date %></th>
+        </tr>
+
+
+        </table>
+      <% end %>
+      <div>

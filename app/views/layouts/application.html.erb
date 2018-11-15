@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Pamela</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    
+    <h1 class='title'>Pamelas Panel</h1>
+    <div class="layout">
+       
+    <nav class="navbar">
+      <ul>
+
+        <% if !instructor_signed_in? && !student_signed_in?%>
+
+        <a href="/"><li>Home</li></a>
+        <a href='/instructors/sign_in'><li>Instructor Login</li></a>
+        <a href='/students/sign_in'><li>Current Student Login</li></a>
+        <a href='/students/sign_up'><li>New Student Registration</li></a>
+        <% end %>
+
+        <% if instructor_signed_in? && current_instructor.admin? %>
+        <li><a href="/create/instructor">Create Instructor</a></li>
+        <li><a href="/create/student">Create Student</a></li>
+        <li><a href="/create/course">Create Course</a></li>
+        <li><a href="/create/cohort">Create Cohort</a></li>
+          <li><%= link_to "Sign Out", destroy_instructor_session_path, method: :delete%></li>
+        <% end %>
+
+        <% if instructor_signed_in? && !current_instructor.admin?%>
+      <li><%= link_to "Sign Out", destroy_instructor_session_path, method: :delete%></li>
+      <li><%= link_to "Edit Account Info",  edit_instructor_registration_path, method: :get%></li>
+      <% end %>
+
+      <% if student_signed_in? && !instructor_signed_in?%>
+
+      <li><%= link_to "Student Sign Out", destroy_student_session_path, method: :delete%></li>
+      <li><%= link_to "Edit Account Info",  edit_student_registration_path, method: :get%></li>
+      <% end %>
+
+
+      </ul>
+    </nav>
+    
+    <div class='grid_item--two'
+      <%= yield %>
+    </div>
+
+    </div>
+   
+  </body>
+</html>
